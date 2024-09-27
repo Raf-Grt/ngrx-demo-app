@@ -1,7 +1,7 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Product } from '../product.model';
 
-export const ProductsPageAction = createActionGroup({
+export const ProductsPageActions = createActionGroup({
   source: 'Products Page',
   events: {
     'Toggle Show Product Code': emptyProps(),
