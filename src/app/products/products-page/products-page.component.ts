@@ -7,6 +7,12 @@ import {
   ProductsApiActions,
   ProductsPageAction,
 } from '../state/products.actions';
+import {
+  selectProducts,
+  selectProductsLoading,
+  selectProductsShowCode,
+  selectProductsTotal,
+} from '../state/products.selectors';
 
 @Component({
   selector: 'app-products-page',
@@ -14,17 +20,13 @@ import {
   styleUrls: ['./products-page.component.css'],
 })
 export class ProductsPageComponent {
-  products$ = this.store.select((state: any) => state.products.products);
-  total = 0;
-  loading$ = this.store.select((state: any) => state.products.loading);
-  showProductCode$ = this.store.select(
-    (state: any) => state.products.showProductCode
-  );
+  products$ = this.store.select(selectProducts);
+  total$ = this.store.select(selectProductsTotal);
+  loading$ = this.store.select(selectProductsLoading);
+  showProductCode$ = this.store.select(selectProductsShowCode);
   errorMessage = '';
 
-  constructor(private productsService: ProductsService, private store: Store) {
-    this.store.subscribe((store) => console.log(store));
-  }
+  constructor(private productsService: ProductsService, private store: Store) {}
 
   ngOnInit() {
     this.getProducts();
@@ -37,7 +39,6 @@ export class ProductsPageComponent {
         this.store.dispatch(
           ProductsApiActions.productsLoadedSuccess({ products })
         );
-        this.total = sumProducts(products);
       },
       error: (error) => (this.errorMessage = error),
     });
